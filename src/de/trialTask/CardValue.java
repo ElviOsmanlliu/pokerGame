@@ -16,25 +16,25 @@ public enum CardValue {
 	KING("king", 13), 
 	ACE("ace", 14);
 	
-	private String valueAsString;
-	public String getValueAsString() {
-		return valueAsString;
+	private String name;
+	public String getName() {
+		return name;
 	}
 
-	public int getValueAsNumber() {
-		return valueAsNumber;
+	private int number;
+	public int getNumber() {
+		return number;
 	}
 
-	private int valueAsNumber;
 	
 	private CardValue(String valueAsString, int valueAsNumber) {
-		this.valueAsString = valueAsString;
-		this.valueAsNumber = valueAsNumber;
+		this.name = valueAsString;
+		this.number = valueAsNumber;
 	}
 	
 	@Override
 	public String toString(){
-		return this.valueAsString;
+		return this.name;
 	}
 	
 }

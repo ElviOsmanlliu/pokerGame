@@ -6,18 +6,18 @@ public enum CardSuite {
 	HEART("heart"), 
 	SPADE("spade");
 	
-	private String suiteName;
+	private String name;
 	
-	public String getSuiteName() {
-		return suiteName;
+	public String getName() {
+		return name;
 	}
 
 	private CardSuite(String suiteName){
-		this.suiteName = suiteName;
+		this.name = suiteName;
 	}
 	
 	 @Override
 	 public String toString(){
-		 return this.suiteName;
+		 return this.name;
 	 }
 }
