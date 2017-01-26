@@ -8,6 +8,10 @@ public enum CardSuite {
 	
 	private String suiteName;
 	
+	public String getSuiteName() {
+		return suiteName;
+	}
+
 	private CardSuite(String suiteName){
 		this.suiteName = suiteName;
 	}
