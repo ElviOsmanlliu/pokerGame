@@ -14,10 +14,10 @@ public class PokerCardTest {
 	public void testPokerCardConstrucion() {
 		PokerCard card = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		
-		assertEquals(card.getSuite().getSuiteName(), CardSuite.DIAMOND.getSuiteName());
+		assertEquals(card.getSuite().getName(), CardSuite.DIAMOND.getName());
 		
-		assertEquals(card.getValue().getValueAsString(), CardValue.FIVE.getValueAsString());
-		assertEquals(card.getValue().getValueAsNumber(), CardValue.FIVE.getValueAsNumber());
+		assertEquals(card.getValue().getName(), CardValue.FIVE.getName());
+		assertEquals(card.getValue().getNumber(), CardValue.FIVE.getNumber());
 	}
 	
 	@Test
