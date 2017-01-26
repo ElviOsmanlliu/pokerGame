@@ -1,8 +1,11 @@
-package de.trialTask;
+package de.trialTask.strategy;
 
 import java.util.Arrays;
 
-public class HighCardStrategy implements RankingStrategy {
+import de.trialTask.model.PokerCard;
+import de.trialTask.model.PokerHand;
+
+public class HighCardStrategy implements IRankingStrategy {
 	
 	private PokerCard[] handOneCards;
 	private PokerCard[] handTwoCards;

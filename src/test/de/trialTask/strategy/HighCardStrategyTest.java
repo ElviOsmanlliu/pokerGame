@@ -1,15 +1,15 @@
-package test.de.trialTask;
+package test.de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.trialTask.CardSuite;
-import de.trialTask.CardValue;
-import de.trialTask.HighCardStrategy;
-import de.trialTask.PokerCard;
-import de.trialTask.PokerHand;
+import de.trialTask.model.CardSuite;
+import de.trialTask.model.CardValue;
+import de.trialTask.model.PokerCard;
+import de.trialTask.model.PokerHand;
+import de.trialTask.strategy.HighCardStrategy;
 
 public class HighCardStrategyTest {
 
@@ -47,6 +47,17 @@ public class HighCardStrategyTest {
 		
 		int result = strategy.rank(handOne, handTwo);
 		assertEquals(result, 1);
+	}
+	
+	@Test
+	public void testResultIsUnspecifiedWhenHandOneSameAsHandTwo(){
+		handOne.setCards(generatePokerCardsFromOneToFour(
+				new PokerCard(CardSuite.DIAMOND, CardValue.ACE)));
+		handTwo.setCards(generatePokerCardsFromOneToFour(
+				new PokerCard(CardSuite.HEART, CardValue.ACE)));
+		
+		int result = strategy.rank(handOne, handTwo);
+		assertEquals(result, 0);
 	}
 	
 	

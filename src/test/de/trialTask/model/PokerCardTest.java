@@ -1,12 +1,12 @@
-package test.de.trialTask;
+package test.de.trialTask.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.trialTask.CardSuite;
-import de.trialTask.CardValue;
-import de.trialTask.PokerCard;
+import de.trialTask.model.CardSuite;
+import de.trialTask.model.CardValue;
+import de.trialTask.model.PokerCard;
 
 public class PokerCardTest {
 	

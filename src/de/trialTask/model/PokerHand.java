@@ -1,4 +1,4 @@
-package de.trialTask;
+package de.trialTask.model;
 
 public class PokerHand {
 	

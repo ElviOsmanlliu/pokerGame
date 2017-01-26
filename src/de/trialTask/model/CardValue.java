@@ -1,4 +1,4 @@
-package de.trialTask;
+package de.trialTask.model;
 
 public enum CardValue {
 	ONE("one", 1), 
