@@ -20,8 +20,8 @@ public class PokerCard implements Comparable<PokerCard> {
 
 	@Override
 	public int compareTo(PokerCard otherCard) {
-		int thisCardValueAsNumber = this.value.getValueAsNumber();
-		int otherCardValueAsNumber = otherCard.value.getValueAsNumber();
+		int thisCardValueAsNumber = this.value.getNumber();
+		int otherCardValueAsNumber = otherCard.value.getNumber();
 		return new Integer(thisCardValueAsNumber).compareTo(new Integer(otherCardValueAsNumber));
 	}
 	
