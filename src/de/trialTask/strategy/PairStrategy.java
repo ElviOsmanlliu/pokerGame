@@ -64,7 +64,7 @@ public class PairStrategy implements IRankingStrategy {
 		List<PokerCard[]> cardArrays = new ArrayList<PokerCard[]>();
 		PokerCard[] pairCards = new PokerCard[2];
 		PokerCard[] restCards = new PokerCard[3];
-		ArrayList<PokerCard> tempCardList = new ArrayList(Arrays.asList(cards.clone()));
+		ArrayList<PokerCard> tempCardList = new ArrayList<PokerCard>(Arrays.asList(cards.clone()));
 		PokerCard firstMate;
 		PokerCard secondMate;
 		Arrays.sort(cards);
@@ -78,7 +78,7 @@ public class PairStrategy implements IRankingStrategy {
 				tempCardList.remove(secondMate);
 			}
 		}
-		tempCardList.toArray(restCards);
+		restCards = tempCardList.toArray(restCards);
 		Arrays.sort(restCards);
 		cardArrays.add(pairCards);
 		cardArrays.add(restCards);
@@ -88,6 +88,11 @@ public class PairStrategy implements IRankingStrategy {
 	// needed only for unit test
 	public void setHighCardStrategy(HighCardStrategy strategy) {
 		highCardStrategy = strategy;
+	}
+	
+	@Override
+	public String toString() {
+		return "Find Pairs";
 	}
 
 }

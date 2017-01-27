@@ -52,5 +52,10 @@ public class HighCardStrategy implements IRankingStrategy {
 		
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		return "Highest Card";
+	}
 
 }
