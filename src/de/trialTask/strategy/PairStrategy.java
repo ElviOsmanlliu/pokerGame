@@ -76,6 +76,7 @@ public class PairStrategy implements IRankingStrategy {
 				pairCards[1] = secondMate;
 				tempCardList.remove(firstMate);
 				tempCardList.remove(secondMate);
+				break;
 			}
 		}
 		restCards = tempCardList.toArray(restCards);

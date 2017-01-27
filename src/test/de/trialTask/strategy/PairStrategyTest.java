@@ -23,7 +23,7 @@ public class PairStrategyTest {
 		handOne = new PokerHand();
 		handTwo = new PokerHand();
 		strategy = new PairStrategy();
-//		strategy.setHighCardStrategy(new HighCardStrategy());
+		strategy.setHighCardStrategy(new HighCardStrategy());
 	}
 	
 	@Test
@@ -43,6 +43,15 @@ public class PairStrategyTest {
 		int result = strategy.rank(handOne, handTwo);
 		assertEquals(result, 1);
 	}
+	
+	@Test 
+	public void testTwoPokerHandsWithThreeSameCards() {
+		handOne.setCards(generatePokerCardsWithThreeSameCards(CardValue.KING));
+		handTwo.setCards(generatePokerCardsWithOnePair(CardValue.ACE));
+		
+		int result = strategy.rank(handOne, handTwo);
+		assertEquals(result, 2);
+	}
 
 	private PokerCard[] generatePokerCardsWithOnePair(CardValue pairCardValue) {
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
@@ -61,6 +70,17 @@ public class PairStrategyTest {
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
 		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, lastCardValue);
+		
+		PokerCard[] cards = {one, two, three, four, five};
+		return cards;
+	}
+	
+	private PokerCard[] generatePokerCardsWithThreeSameCards(CardValue sameCardValue) {
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard two = new PokerCard(CardSuite.DIAMOND, sameCardValue);
+		PokerCard three = new PokerCard(CardSuite.HEART, sameCardValue);
+		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, sameCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;
