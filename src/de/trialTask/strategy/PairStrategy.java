@@ -30,7 +30,7 @@ public class PairStrategy implements IRankingStrategy {
 	private boolean existsPair(PokerCard[] cards){
 		Arrays.sort(cards);
 		for (int i=0; i < cards.length-1; i++){
-			if (cards[i].equals(cards[i+1])) {
+			if (cards[i].compareTo(cards[i+1]) == 0) {
 				return true;
 			}
 		}
@@ -69,7 +69,7 @@ public class PairStrategy implements IRankingStrategy {
 		PokerCard secondMate;
 		Arrays.sort(cards);
 		for (int i=0; i < cards.length-1; i++){
-			if (cards[i].equals(cards[i+1])) {
+			if (cards[i].compareTo(cards[i+1]) == 0) {
 				firstMate = cards[i];
 				secondMate = cards[i+1];
 				pairCards[0] = firstMate;
