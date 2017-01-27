@@ -32,11 +32,11 @@ public class PokerGameGUI extends Application {
 	
     private TableView<PokerCard> firstPlayerTable = new TableView<PokerCard>();
     private ObservableList<PokerCard> firstPlayerData =
-        FXCollections.observableArrayList(getRandomPokerHand());
+        FXCollections.observableArrayList(new PokerCard[5]);
     
     private TableView<PokerCard> secondPlayerTable = new TableView<PokerCard>();
     private ObservableList<PokerCard> secondPlayerData =
-        FXCollections.observableArrayList(getRandomPokerHand());
+        FXCollections.observableArrayList(new PokerCard[5]);
    
     public static void main(String[] args) {
         launch(args);
@@ -60,7 +60,7 @@ public class PokerGameGUI extends Application {
         createTableWithPlayerCards(secondPlayerTable, "Second Player Cards", secondPlayerData);
         
         Button startNewGameButton = new Button("Start New Game");
-        startNewGameButton.setVisible(isStartNewGameVisible);
+        startNewGameButton.setVisible(false);
         startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
