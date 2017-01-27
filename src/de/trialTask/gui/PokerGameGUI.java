@@ -65,6 +65,7 @@ public class PokerGameGUI extends Application {
         	@Override
         	public void handle(ActionEvent e) {
         		pokerDeckWithPlayingCards.clear();
+        		startNewGameButton.setVisible(false);
         	}
         });
         
