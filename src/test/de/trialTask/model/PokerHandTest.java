@@ -21,35 +21,35 @@ public class PokerHandTest {
 
 	@Test
 	public void testPokerHandHasCorrectNumberOfCards(){
-		pokerHand.setCards(generatePokerCardsFromOneToFive());
+		pokerHand.setCards(generatePokerCardsFromTwoToSix());
 		
 		assertEquals(PokerHand.POKER_HAND_SIZE, pokerHand.getCards().length);
 	}
 	
 	@Test (expected = IllegalStateException.class) 
 	public void testPokerHandWithMoreThanFiveCardsThrowsIllegalStateException() {
-		pokerHand.setCards(generatePokerCardsFromOneToSix());
+		pokerHand.setCards(generatePokerCardsFromTwoToSeven());
 	}
 	
 	
-	private PokerCard[] generatePokerCardsFromOneToFive(){
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.ONE);
+	private PokerCard[] generatePokerCardsFromTwoToSix(){
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.SIX);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;
 	}
 	
-	private PokerCard[] generatePokerCardsFromOneToSix(){
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.ONE);
+	private PokerCard[] generatePokerCardsFromTwoToSeven(){
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		PokerCard six = new PokerCard(CardSuite.DIAMOND, CardValue.SIX);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.SEVEN);
 		
 		PokerCard[] cards = {one, two, three, four, five, six};
 		return cards;

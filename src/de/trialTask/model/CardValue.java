@@ -1,7 +1,6 @@
 package de.trialTask.model;
 
 public enum CardValue {
-	ONE("one", 1), 
 	TWO("two", 2), 
 	THREE("three", 3), 
 	FOUR("four", 4), 

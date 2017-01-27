@@ -26,9 +26,9 @@ public class HighCardStrategyTest {
 
 	@Test
 	public void testHandOneWinsOverHandTwoDueToHighestCard(){
-		handOne.setCards(generatePokerCardsFromOneToFour(
+		handOne.setCards(generatePokerCardsFromTowToFive(
 				new PokerCard(CardSuite.DIAMOND, CardValue.ACE)));
-		handTwo.setCards(generatePokerCardsFromOneToFour(
+		handTwo.setCards(generatePokerCardsFromTowToFive(
 				new PokerCard(CardSuite.DIAMOND, CardValue.JACK)));
 		
 		int result = strategy.rank(handOne, handTwo);
@@ -37,10 +37,10 @@ public class HighCardStrategyTest {
 	
 	@Test
 	public void testHandOneWinsOverHandTwoDueToSecondHighestCard(){
-		handOne.setCards(generatePokerCardsFromOneToThree(
+		handOne.setCards(generatePokerCardsFromTwoToFour(
 				new PokerCard(CardSuite.DIAMOND, CardValue.KING),
 				new PokerCard(CardSuite.DIAMOND, CardValue.ACE)));
-		handTwo.setCards(generatePokerCardsFromOneToThree(
+		handTwo.setCards(generatePokerCardsFromTwoToFour(
 				new PokerCard(CardSuite.DIAMOND, CardValue.JACK),
 			    new PokerCard(CardSuite.DIAMOND, CardValue.ACE)));
 		
@@ -51,9 +51,9 @@ public class HighCardStrategyTest {
 	
 	@Test
 	public void testResultIsUnspecifiedWhenHandOneSameAsHandTwo(){
-		handOne.setCards(generatePokerCardsFromOneToFour(
+		handOne.setCards(generatePokerCardsFromTowToFive(
 				new PokerCard(CardSuite.DIAMOND, CardValue.ACE)));
-		handTwo.setCards(generatePokerCardsFromOneToFour(
+		handTwo.setCards(generatePokerCardsFromTowToFive(
 				new PokerCard(CardSuite.HEART, CardValue.ACE)));
 		
 		int result = strategy.rank(handOne, handTwo);
@@ -61,20 +61,20 @@ public class HighCardStrategyTest {
 	}
 	
 	
-	private PokerCard[] generatePokerCardsFromOneToFour(PokerCard lastCard){
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.ONE);
+	private PokerCard[] generatePokerCardsFromTowToFive(PokerCard lastCard){
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		
 		PokerCard[] cards = {one, two, three, four, lastCard};
 		return cards;
 	}
 	
-	private PokerCard[] generatePokerCardsFromOneToThree(PokerCard card, PokerCard lastCard){
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.ONE);
+	private PokerCard[] generatePokerCardsFromTwoToFour(PokerCard card, PokerCard lastCard){
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
 		
 		PokerCard[] cards = {one, two, three, card, lastCard};
 		return cards;
