@@ -1,4 +1,4 @@
-package de.trialTask.strategy;
+package test.de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,10 @@ import de.trialTask.model.CardSuite;
 import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
 import de.trialTask.model.PokerHand;
+import de.trialTask.strategy.HighCardStrategy;
+import de.trialTask.strategy.IRankingStrategy;
+import de.trialTask.strategy.PairStrategy;
+import de.trialTask.strategy.StrategyComposition;
 
 public class StrategyCompositionTest {
 	
