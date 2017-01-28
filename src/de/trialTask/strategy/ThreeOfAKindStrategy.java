@@ -25,7 +25,7 @@ public class ThreeOfAKindStrategy implements IRankingStrategy {
 	
 	private boolean existsThreeSameValues(PokerCard[] cards){
 		Arrays.sort(cards);
-		for (int i=0; i < cards.length-1; i++) {
+		for (int i=0; i < cards.length-2; i++) {
 			if (cards[i].compareTo(cards[i+1]) == 0
 					&& cards[i].compareTo(cards[i+2]) == 0) {
 				return true;
