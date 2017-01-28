@@ -52,7 +52,8 @@ public class PairStrategy implements IRankingStrategy {
 		} else if (handOnePairs[0].getValue().getNumber() < handTwoPairs[0].getValue().getNumber()) {
 			result = 2;
 		} else {
-			return handOneRestCardsAscending[0].compareTo(handTwoRestCardsAscending[0]);
+			// poker hand with highest rest card value wins
+			return handOneRestCardsAscending[2].compareTo(handTwoRestCardsAscending[2]);
 		}
 		
 		return result;

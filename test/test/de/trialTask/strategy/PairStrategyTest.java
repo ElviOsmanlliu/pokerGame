@@ -64,10 +64,10 @@ public class PairStrategyTest {
 	}
 	
 	private PokerCard[] generatePokerCardsWithOnePairAndLastCard(CardValue pairCardValue, CardValue lastCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TEN);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, pairCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.NINE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, lastCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
