@@ -7,6 +7,11 @@ import java.util.List;
 import de.trialTask.model.CardSuite;
 import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
+import de.trialTask.model.PokerHand;
+import de.trialTask.strategy.HighCardStrategy;
+import de.trialTask.strategy.IRankingStrategy;
+import de.trialTask.strategy.PairStrategy;
+import de.trialTask.strategy.StrategyComposition;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -37,7 +42,9 @@ public class PokerGameGUI extends Application {
     private TableView<PokerCard> secondPlayerTable = new TableView<PokerCard>();
     private ObservableList<PokerCard> secondPlayerData =
         FXCollections.observableArrayList(new PokerCard[5]);
-   
+    
+    private StrategyComposition strategyComposition = new StrategyComposition();
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -69,31 +76,68 @@ public class PokerGameGUI extends Application {
         	}
         });
         
+        prepareRankingStrategies();
+        
+        Label winLabel = new Label();
+        winLabel.setFont(new Font("Arial", 20));
+        
         Button genRandomCardsButton = new Button("New Cards");
         genRandomCardsButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
         		firstPlayerData.clear();
-        		for (PokerCard card: getRandomPokerHand()) {
+        		PokerHand firstPlayerPokerHand = getRandomPokerHand();
+        		for (PokerCard card: firstPlayerPokerHand.getCards()) {
         			firstPlayerData.add(card);
         		}
         		firstPlayerTable.setItems(firstPlayerData);
         		
         		secondPlayerData.clear();
-        		for (PokerCard card: getRandomPokerHand()) {
+        		PokerHand secondPlayerPokerHand = getRandomPokerHand();
+        		for (PokerCard card: secondPlayerPokerHand.getCards()) {
         			secondPlayerData.add(card);
         		}
         		secondPlayerTable.setItems(secondPlayerData);
         		
-        		startNewGameButton.setVisible(isStartNewGameVisible);
+        		// If cards still available find the winner
+        		if (!isStartNewGameVisible) {
+        			int result = strategyComposition.rank(firstPlayerPokerHand, secondPlayerPokerHand);
+            		String usedStrategy = strategyComposition.getUsedStrategy().toString();
+        			String winLabelText = "";
+            		switch(result) {
+            		case 1: 
+            			winLabelText = "First Player Won! " + usedStrategy; break;
+            		case 2: 
+            			winLabelText = "Second Player Won! " + usedStrategy; break;
+            		case 0: 
+            			winLabelText = "No one won! " + usedStrategy; break;
+            		}
+            		winLabel.setText(winLabelText);
+        		}
+        		
+        		// If all cards played, start new game
+        		if (isStartNewGameVisible) {
+        			startNewGameButton.setVisible(true);
+        			winLabel.setText("");
+        		}
         	}
         });
         
-        vbox.getChildren().addAll(label, firstPlayerTable, secondPlayerTable, genRandomCardsButton, startNewGameButton);
+        vbox.getChildren().addAll(label, firstPlayerTable, secondPlayerTable, genRandomCardsButton, startNewGameButton, winLabel);
         
         ((Group) scene.getRoot()).getChildren().add(vbox);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    private void prepareRankingStrategies() {
+    	HighCardStrategy highCardStrategy = new HighCardStrategy();
+        PairStrategy pairStrategy = new PairStrategy();
+        pairStrategy.setHighCardStrategy(highCardStrategy);
+        IRankingStrategy[] strategyArray = {pairStrategy, highCardStrategy};
+        
+        List<IRankingStrategy> orderedStrategies = new ArrayList<IRankingStrategy>(Arrays.asList(strategyArray));
+        strategyComposition.setStrategies(orderedStrategies);
     }
 
 	private void createTableWithPlayerCards(TableView<PokerCard> table, String columnName, ObservableList<PokerCard> data) {
@@ -113,7 +157,8 @@ public class PokerGameGUI extends Application {
         table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
 	}
     
-    private PokerCard[] getRandomPokerHand() {
+    private PokerHand getRandomPokerHand() {
+    	PokerHand pokerHand = new PokerHand();
     	PokerCard[] pokerHandCards = new PokerCard[5];
     	for (int i = 0; i< pokerHandCards.length; i++) {
     		PokerCard randomCard = getRandomPokerCard();
@@ -124,7 +169,8 @@ public class PokerGameGUI extends Application {
     			isStartNewGameVisible = true;
     		}
     	}
-    	return pokerHandCards;
+    	pokerHand.setCards(pokerHandCards);
+    	return pokerHand;
     }
     
     private PokerCard getRandomPokerCard() {
@@ -149,7 +195,7 @@ public class PokerGameGUI extends Application {
     	case 1: cardSuite = CardSuite.CLUB; break;
     	case 2: cardSuite = CardSuite.DIAMOND; break;
     	case 3: cardSuite = CardSuite.HEART; break;
-    	default: cardSuite = CardSuite.SPADE;
+    	default: cardSuite = CardSuite.SPADE; break;
     	}
     	return cardSuite;
     }
@@ -169,7 +215,7 @@ public class PokerGameGUI extends Application {
     	case 10: cardValue = CardValue.JACK; break;
     	case 11: cardValue = CardValue.QUEEN; break;
     	case 12: cardValue = CardValue.KING; break;
-    	default: cardValue = CardValue.ACE;
+    	default: cardValue = CardValue.ACE; break;
     	}
     	return cardValue;
     }
