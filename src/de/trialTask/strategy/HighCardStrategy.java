@@ -32,7 +32,7 @@ public class HighCardStrategy implements IRankingStrategy {
 	 * 			0, all cards are equal <br>
 	 * 			2, if handTwo is better than handOne
 	 */
-	protected int compareSortedCardsByHighestValue(PokerCard[] handOneCards, PokerCard[] handTwoCards, int handSize) {
+	private int compareSortedCardsByHighestValue(PokerCard[] handOneCards, PokerCard[] handTwoCards, int handSize) {
 		int result = 0;
 		int i = handSize-1;
 		int handOneHighestValue;

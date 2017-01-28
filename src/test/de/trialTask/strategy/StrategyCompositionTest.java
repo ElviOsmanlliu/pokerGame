@@ -30,7 +30,6 @@ public class StrategyCompositionTest {
 	public void setUp() throws Exception {
 		highCardStrategy = new HighCardStrategy();
 		pairStrategy = new PairStrategy();
-		pairStrategy.setHighCardStrategy(highCardStrategy);
 		orderedStrategies.add(pairStrategy);
 		orderedStrategies.add(highCardStrategy);
 		composition.setStrategies(orderedStrategies);

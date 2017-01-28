@@ -23,7 +23,6 @@ public class PairStrategyTest {
 		handOne = new PokerHand();
 		handTwo = new PokerHand();
 		strategy = new PairStrategy();
-		strategy.setHighCardStrategy(new HighCardStrategy());
 	}
 	
 	@Test
@@ -65,10 +64,10 @@ public class PairStrategyTest {
 	}
 	
 	private PokerCard[] generatePokerCardsWithOnePair(CardValue pairCardValue, CardValue lastCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TEN);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, pairCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.NINE);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, lastCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
@@ -80,7 +79,7 @@ public class PairStrategyTest {
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, sameCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, sameCardValue);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, sameCardValue);
+		PokerCard one = new PokerCard(CardSuite.CLUB, sameCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;

@@ -146,7 +146,6 @@ public class PokerGameGUI extends Application {
     private void prepareRankingStrategies() {
     	HighCardStrategy highCardStrategy = new HighCardStrategy();
         PairStrategy pairStrategy = new PairStrategy();
-        pairStrategy.setHighCardStrategy(highCardStrategy);
         IRankingStrategy[] strategyArray = {pairStrategy, highCardStrategy};
         
         List<IRankingStrategy> orderedStrategies = new ArrayList<IRankingStrategy>(Arrays.asList(strategyArray));

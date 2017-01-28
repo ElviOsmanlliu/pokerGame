@@ -11,7 +11,6 @@ public class PairStrategy implements IRankingStrategy {
 	
 	private PokerCard[] handOneCards;
 	private PokerCard[] handTwoCards;
-	private HighCardStrategy highCardStrategy = new HighCardStrategy();
 
 	@Override
 	public int rank(PokerHand handOne, PokerHand handTwo) {
@@ -45,16 +44,15 @@ public class PairStrategy implements IRankingStrategy {
 		PokerCard[] handOnePairs = handOneCardsSorted.get(0);
 		PokerCard[] handTwoPairs = handTwoCardsSorted.get(0);
 		
-		PokerCard[] handOneRestCards = handOneCardsSorted.get(1);
-		PokerCard[] handTwoRestCards = handTwoCardsSorted.get(1);
+		PokerCard[] handOneRestCardsAscending = handOneCardsSorted.get(1);
+		PokerCard[] handTwoRestCardsAscending = handTwoCardsSorted.get(1);
 		
 		if (handOnePairs[0].getValue().getNumber() > handTwoPairs[0].getValue().getNumber()) {
 			result = 1;
 		} else if (handOnePairs[0].getValue().getNumber() < handTwoPairs[0].getValue().getNumber()) {
 			result = 2;
 		} else {
-			result = highCardStrategy.
-					compareSortedCardsByHighestValue(handOneRestCards, handTwoRestCards, handOneRestCards.length);
+			return handOneRestCardsAscending[0].compareTo(handTwoRestCardsAscending[0]);
 		}
 		
 		return result;
@@ -80,15 +78,9 @@ public class PairStrategy implements IRankingStrategy {
 			}
 		}
 		restCards = tempCardList.toArray(restCards);
-		Arrays.sort(restCards);
 		cardArrays.add(pairCards);
 		cardArrays.add(restCards);
 		return cardArrays;
-	}
-	
-	// needed only for unit test
-	public void setHighCardStrategy(HighCardStrategy strategy) {
-		highCardStrategy = strategy;
 	}
 	
 	@Override
