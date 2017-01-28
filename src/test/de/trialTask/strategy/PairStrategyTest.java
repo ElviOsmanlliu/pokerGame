@@ -36,8 +36,8 @@ public class PairStrategyTest {
 	
 	@Test
 	public void testTwoPokerHandsWithSamePairsByTheRestCards() {
-		handOne.setCards(generatePokerCardsWithOnePair(CardValue.KING, CardValue.SEVEN));
-		handTwo.setCards(generatePokerCardsWithOnePair(CardValue.KING, CardValue.FIVE));
+		handOne.setCards(generatePokerCardsWithOnePairAndLastCard(CardValue.KING, CardValue.SEVEN));
+		handTwo.setCards(generatePokerCardsWithOnePairAndLastCard(CardValue.KING, CardValue.FIVE));
 		
 		int result = strategy.rank(handOne, handTwo);
 		assertEquals(result, 1);
@@ -63,7 +63,7 @@ public class PairStrategyTest {
 		return cards;
 	}
 	
-	private PokerCard[] generatePokerCardsWithOnePair(CardValue pairCardValue, CardValue lastCardValue) {
+	private PokerCard[] generatePokerCardsWithOnePairAndLastCard(CardValue pairCardValue, CardValue lastCardValue) {
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TEN);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, pairCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
