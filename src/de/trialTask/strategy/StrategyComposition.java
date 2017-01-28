@@ -29,7 +29,5 @@ public class StrategyComposition implements IRankingStrategy {
 		}
 		return result;
 	}
-
-	
 	
 }
