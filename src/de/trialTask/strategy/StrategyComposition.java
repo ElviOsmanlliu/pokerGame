@@ -7,6 +7,11 @@ import de.trialTask.model.PokerHand;
 
 public class StrategyComposition implements IRankingStrategy {
 	
+	private IRankingStrategy usedStrategy;
+	public IRankingStrategy getUsedStrategy() {
+		return usedStrategy;
+	}
+	
 	private List<IRankingStrategy> orderedStrategies = new ArrayList<>();
 	public void setStrategies(List<IRankingStrategy> strategies) {
 		orderedStrategies = strategies;
@@ -18,7 +23,7 @@ public class StrategyComposition implements IRankingStrategy {
 		for (IRankingStrategy strategy : orderedStrategies) {
 			result = strategy.rank(handOne, handTwo);
 			if (result != 0) {
-				System.out.println("Result was: " + result + ". Used strategy: " + strategy.toString());
+				usedStrategy = strategy;
 				break;
 			}
 		}
