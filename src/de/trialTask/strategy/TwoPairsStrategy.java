@@ -110,6 +110,13 @@ public class TwoPairsStrategy implements IRankingStrategy {
 		cardArrays.add(firstPair);
 		cardArrays.add(secondPair);
 		cardArrays.add(lastCard);
+		
 		return cardArrays;
 	}
+	
+	@Override
+	public String toString() {
+		return "Two Pairs";
+	}
+	
 }
