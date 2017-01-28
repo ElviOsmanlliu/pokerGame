@@ -7,13 +7,10 @@ import de.trialTask.model.PokerHand;
 
 public class HighCardStrategy implements IRankingStrategy {
 	
-	private PokerCard[] handOneCards;
-	private PokerCard[] handTwoCards;
-
 	@Override
 	public int rank(PokerHand handOne, PokerHand handTwo) {
-		handOneCards = handOne.getCards().clone();
-		handTwoCards = handTwo.getCards().clone();
+		PokerCard[] handOneCards = handOne.getCards().clone();
+		PokerCard[] handTwoCards = handTwo.getCards().clone();
 		
 		Arrays.sort(handOneCards);
 		Arrays.sort(handTwoCards);
@@ -47,6 +44,7 @@ public class HighCardStrategy implements IRankingStrategy {
 			} else if (handOneHighestValue < handTwoHighestValue) {
 				result = 2;
 			}
+			
 			i--;
 		} while (i>=0 && handOneHighestValue == handTwoHighestValue);
 		

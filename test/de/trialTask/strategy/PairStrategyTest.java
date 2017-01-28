@@ -1,4 +1,4 @@
-package test.de.trialTask.strategy;
+package de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -53,21 +53,21 @@ public class PairStrategyTest {
 	}
 
 	private PokerCard[] generatePokerCardsWithOnePair(CardValue pairCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, pairCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
-		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;
 	}
 	
 	private PokerCard[] generatePokerCardsWithOnePairAndLastCard(CardValue pairCardValue, CardValue lastCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, pairCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, pairCardValue);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
 		PokerCard five = new PokerCard(CardSuite.DIAMOND, lastCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
@@ -75,11 +75,11 @@ public class PairStrategyTest {
 	}
 	
 	private PokerCard[] generatePokerCardsWithThreeSameCards(CardValue sameCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, sameCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, sameCardValue);
-		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard one = new PokerCard(CardSuite.CLUB, sameCardValue);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard five = new PokerCard(CardSuite.CLUB, sameCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;

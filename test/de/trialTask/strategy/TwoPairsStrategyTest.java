@@ -1,4 +1,4 @@
-package test.de.trialTask.strategy;
+package de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -62,11 +62,11 @@ public class TwoPairsStrategyTest {
 
 	
 	private PokerCard[] generatePokerCardsWithTwoPairs(CardValue firstPairValue, CardValue secondPairValue, CardValue lastCardValue) {
-		PokerCard four = new PokerCard(CardSuite.CLUB, secondPairValue);
+		PokerCard one = new PokerCard(CardSuite.CLUB, secondPairValue);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, firstPairValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, firstPairValue);
-		PokerCard five = new PokerCard(CardSuite.SPADE, lastCardValue);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, secondPairValue);
+		PokerCard four = new PokerCard(CardSuite.SPADE, lastCardValue);
+		PokerCard five = new PokerCard(CardSuite.DIAMOND, secondPairValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;

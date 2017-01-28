@@ -1,4 +1,4 @@
-package test.de.trialTask.strategy;
+package de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,11 +34,11 @@ public class ThreeOfAKindStrategyTest {
 	}
 	
 	private PokerCard[] generatePokerCardsWithThreeSameCardValues(CardValue sameCardValue) {
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
 		PokerCard two = new PokerCard(CardSuite.DIAMOND, sameCardValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, sameCardValue);
-		PokerCard five = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard one = new PokerCard(CardSuite.CLUB, sameCardValue);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard five = new PokerCard(CardSuite.CLUB, sameCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, five};
 		return cards;

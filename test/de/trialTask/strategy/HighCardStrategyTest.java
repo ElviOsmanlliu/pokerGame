@@ -1,4 +1,4 @@
-package test.de.trialTask.strategy;
+package de.trialTask.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -62,19 +62,19 @@ public class HighCardStrategyTest {
 	
 	
 	private PokerCard[] generatePokerCardsFromTowToFive(PokerCard lastCard){
-		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
-		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		
 		PokerCard[] cards = {one, two, three, four, lastCard};
 		return cards;
 	}
 	
 	private PokerCard[] generatePokerCardsFromTwoToFour(PokerCard card, PokerCard lastCard){
-		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
-		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
+		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
 		
 		PokerCard[] cards = {one, two, three, card, lastCard};
 		return cards;

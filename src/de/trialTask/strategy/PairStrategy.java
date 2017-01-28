@@ -9,15 +9,12 @@ import de.trialTask.model.PokerHand;
 
 public class PairStrategy implements IRankingStrategy {
 	
-	private PokerCard[] handOneCards;
-	private PokerCard[] handTwoCards;
-
 	@Override
 	public int rank(PokerHand handOne, PokerHand handTwo) {
 		int result = 0;
 		
-		handOneCards = handOne.getCards().clone();
-		handTwoCards = handTwo.getCards().clone();
+		PokerCard[] handOneCards = handOne.getCards().clone();
+		PokerCard[] handTwoCards = handTwo.getCards().clone();
 		
 		if (existsPair(handOneCards) && existsPair(handTwoCards)) {
 			result = comparePairs(handOneCards, handTwoCards);
@@ -47,9 +44,9 @@ public class PairStrategy implements IRankingStrategy {
 		PokerCard[] handOneRestCardsAscending = handOneCardsSorted.get(1);
 		PokerCard[] handTwoRestCardsAscending = handTwoCardsSorted.get(1);
 		
-		if (handOnePairs[0].getValue().getNumber() > handTwoPairs[0].getValue().getNumber()) {
+		if (handOnePairs[0].compareTo(handTwoPairs[0]) > 0) {
 			result = 1;
-		} else if (handOnePairs[0].getValue().getNumber() < handTwoPairs[0].getValue().getNumber()) {
+		} else if (handOnePairs[0].compareTo(handTwoPairs[0]) < 0) {
 			result = 2;
 		} else {
 			// poker hand with highest rest card value wins

@@ -1,4 +1,4 @@
-package test.de.trialTask.model;
+package de.trialTask.model;
 
 import static org.junit.Assert.*;
 

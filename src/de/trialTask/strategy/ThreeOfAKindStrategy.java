@@ -17,7 +17,7 @@ public class ThreeOfAKindStrategy implements IRankingStrategy {
 		handTwoCards = handTwo.getCards().clone();
 		
 		if (existsThreeSameValues(handOneCards) && existsThreeSameValues(handTwoCards)) {
-			result = comparePairs(handOneCards, handTwoCards);
+			result = compareHandCards(handOneCards, handTwoCards);
 		}
 		
 		return result;
@@ -34,12 +34,11 @@ public class ThreeOfAKindStrategy implements IRankingStrategy {
 		return false;
 	}
 	
-	private int comparePairs(PokerCard[] handOneCards, PokerCard[] handTwoCards){
+	private int compareHandCards(PokerCard[] handOneCards, PokerCard[] handTwoCards){
 		PokerCard[] handOneSameThree = getSameCards(handOneCards);
 		PokerCard[] handTwoSameThree = getSameCards(handTwoCards);
 		
-		return new Integer(handOneSameThree[0].getValue().getNumber())
-				.compareTo(new Integer(handTwoSameThree[0].getValue().getNumber()));
+		return handOneSameThree[0].compareTo(handTwoSameThree[0]);
 	}
 	
 	private PokerCard[] getSameCards(PokerCard[] cards){

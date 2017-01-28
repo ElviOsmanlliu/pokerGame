@@ -58,24 +58,21 @@ public class TwoPairsStrategy implements IRankingStrategy {
 		PokerCard[] lastCardFirstPair = handOneCardsSorted.get(2);
 		PokerCard[] lastCardSecondPair = handTwoCardsSorted.get(2);
 		
-		// the cards are sorted ascending
-		if (handOneSecondPair[0].getValue().getNumber() > handTwoSecondPair[0].getValue().getNumber()) {
+		// the cards are sorted ascending		
+		if (handOneSecondPair[0].compareTo(handTwoSecondPair[0]) > 0) {
 			result = 1;
-		} else if (handOneSecondPair[0].getValue().getNumber() < handTwoSecondPair[0].getValue().getNumber()) {
+		} else if (handOneSecondPair[0].compareTo(handTwoSecondPair[0]) < 0) {
 			result = 2;
-		} else {
-			if (handOneFirstPair[0].getValue().getNumber() > handTwoFirstPair[0].getValue().getNumber()) {
-				result = 1;
-			} else if (handOneFirstPair[0].getValue().getNumber() < handTwoFirstPair[0].getValue().getNumber()) {
-				result = 2;
-			} else {
-				if (lastCardFirstPair[0].getValue().getNumber() > lastCardSecondPair[0].getValue().getNumber()) {
-					result = 1;
-				} else if (lastCardFirstPair[0].getValue().getNumber() < lastCardSecondPair[0].getValue().getNumber()) {
-					result = 2;
-				}
-			}
+		} else if (handOneFirstPair[0].compareTo(handTwoFirstPair[0]) > 0) {
+			result = 1;
+		} else if (handOneFirstPair[0].compareTo(handTwoFirstPair[0]) < 0) {
+			result = 2;
+		} else if (lastCardFirstPair[0].compareTo(lastCardSecondPair[0]) > 0) {
+			result = 1;
+		} else if (lastCardFirstPair[0].compareTo(lastCardSecondPair[0]) < 0) {
+			result = 2;
 		}
+		
 		return result;
 	}
 	
