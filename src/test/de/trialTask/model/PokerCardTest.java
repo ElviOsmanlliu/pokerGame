@@ -14,18 +14,18 @@ public class PokerCardTest {
 	public void testPokerCardConstrucion() {
 		PokerCard card = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		
-		assertEquals(card.getSuite().getName(), CardSuite.DIAMOND.getName());
+		assertEquals(CardSuite.DIAMOND.getName(), card.getSuite().getName());
 		
-		assertEquals(card.getValue().getName(), CardValue.FIVE.getName());
-		assertEquals(card.getValue().getNumber(), CardValue.FIVE.getNumber());
+		assertEquals(CardValue.FIVE.getName(), card.getValue().getName());
+		assertEquals( CardValue.FIVE.getNumber(), card.getValue().getNumber());
 	}
 	
 	@Test
-	public void testPokerCardAreEqualsAlthoughOfDifferentSuite() {
+	public void testPokerCardAreNotEqualsIfDifferentSuite() {
 		PokerCard cardDiamond = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
 		PokerCard cardHeart = new PokerCard(CardSuite.HEART, CardValue.FIVE);
 		
-		assertEquals(cardDiamond, cardHeart);
+		assertNotEquals(cardDiamond, cardHeart);
 	}
 	
 	@Test 

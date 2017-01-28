@@ -32,7 +32,7 @@ public class HighCardStrategyTest {
 				new PokerCard(CardSuite.DIAMOND, CardValue.JACK)));
 		
 		int result = strategy.rank(handOne, handTwo);
-		assertEquals(result, 1);
+		assertEquals(1, result);
 	}
 	
 	@Test
@@ -46,7 +46,7 @@ public class HighCardStrategyTest {
 		
 		
 		int result = strategy.rank(handOne, handTwo);
-		assertEquals(result, 1);
+		assertEquals(1, result);
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class HighCardStrategyTest {
 				new PokerCard(CardSuite.HEART, CardValue.ACE)));
 		
 		int result = strategy.rank(handOne, handTwo);
-		assertEquals(result, 0);
+		assertEquals(0, result);
 	}
 	
 	
