@@ -32,6 +32,13 @@ import javafx.stage.Stage;
  
 public class PokerGameGUI extends Application {
 	
+	private static final String NEW_CARDS_GENERATOR_BUTTON_LABEL = "New Cards";
+	private static final String START_NEW_GAME_BUTTON_LABEL = "Start New Game";
+	private static final String SECOND_COLUMN_NAME = "Second Player Cards";
+	private static final String FIRST_COLUMN_NAME = "First Player Cards";
+	private static final String BOX_LABEL = "Random Poker Hands";
+	private static final String STAGE_TITLE = "PokerGame_TrialTask";
+	
 	private List<PokerCard> pokerDeckWithPlayingCards = new ArrayList<PokerCard>();
 	private boolean isStartNewGameVisible = false;
 	
@@ -52,21 +59,21 @@ public class PokerGameGUI extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
-        stage.setTitle("PokerGame_TrialTask");
+        stage.setTitle(STAGE_TITLE);
         stage.setWidth(450);
-        stage.setHeight(500);
+        stage.setHeight(550);
  
-        final Label label = new Label("Random Poker Hands");
+        final Label label = new Label(BOX_LABEL);
         label.setFont(new Font("Arial", 20));
         
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
  
-        createTableWithPlayerCards(firstPlayerTable, "First Player Cards", firstPlayerData);
-        createTableWithPlayerCards(secondPlayerTable, "Second Player Cards", secondPlayerData);
+        createTableWithPlayerCards(firstPlayerTable, FIRST_COLUMN_NAME, firstPlayerData);
+        createTableWithPlayerCards(secondPlayerTable, SECOND_COLUMN_NAME, secondPlayerData);
         
-        Button startNewGameButton = new Button("Start New Game");
+        Button startNewGameButton = new Button(START_NEW_GAME_BUTTON_LABEL);
         startNewGameButton.setVisible(false);
         startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
@@ -81,7 +88,7 @@ public class PokerGameGUI extends Application {
         Label winLabel = new Label();
         winLabel.setFont(new Font("Arial", 20));
         
-        Button genRandomCardsButton = new Button("New Cards");
+        Button genRandomCardsButton = new Button(NEW_CARDS_GENERATOR_BUTTON_LABEL);
         genRandomCardsButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
@@ -130,6 +137,12 @@ public class PokerGameGUI extends Application {
         stage.show();
     }
     
+    /**
+     * Set the strategies by which the poker hands are ranked.
+     * Order is important and prescribed as follows:
+     * First element in the list is the strategy with higher ranking.
+     * Last element in the list is the strategy with lowest ranking.  
+     */
     private void prepareRankingStrategies() {
     	HighCardStrategy highCardStrategy = new HighCardStrategy();
         PairStrategy pairStrategy = new PairStrategy();
