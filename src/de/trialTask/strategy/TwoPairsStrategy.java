@@ -10,15 +10,12 @@ import de.trialTask.model.PokerHand;
 
 public class TwoPairsStrategy implements IRankingStrategy {
 	
-	private PokerCard[] handOneCards;
-	private PokerCard[] handTwoCards;
-
 	@Override
 	public int rank(PokerHand handOne, PokerHand handTwo) {
 		int result = 0;
 		
-		handOneCards = handOne.getCards().clone();
-		handTwoCards = handTwo.getCards().clone();
+		PokerCard[] handOneCards = handOne.getCards().clone();
+		PokerCard[] handTwoCards = handTwo.getCards().clone();
 		
 		if (existsTwoDifferentPairs(handOneCards) 
 				&& existsTwoDifferentPairs(handTwoCards)) {

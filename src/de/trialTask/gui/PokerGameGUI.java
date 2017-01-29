@@ -8,10 +8,18 @@ import de.trialTask.model.CardSuite;
 import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
 import de.trialTask.model.PokerHand;
+import de.trialTask.strategy.FlushStrategy;
+import de.trialTask.strategy.FlushStrategyTest;
+import de.trialTask.strategy.FourOfAKindStrategy;
+import de.trialTask.strategy.FullHouseStrategy;
 import de.trialTask.strategy.HighCardStrategy;
 import de.trialTask.strategy.IRankingStrategy;
 import de.trialTask.strategy.PairStrategy;
+import de.trialTask.strategy.StraightFlushStrategy;
+import de.trialTask.strategy.StraightStrategy;
 import de.trialTask.strategy.StrategyComposition;
+import de.trialTask.strategy.ThreeOfAKindStrategy;
+import de.trialTask.strategy.TwoPairsStrategy;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -146,7 +154,19 @@ public class PokerGameGUI extends Application {
     private void prepareRankingStrategies() {
     	HighCardStrategy highCardStrategy = new HighCardStrategy();
         PairStrategy pairStrategy = new PairStrategy();
-        IRankingStrategy[] strategyArray = {pairStrategy, highCardStrategy};
+        TwoPairsStrategy twoPairsStrategy = new TwoPairsStrategy();
+        ThreeOfAKindStrategy threeOfAKindStrategy = new ThreeOfAKindStrategy();
+        StraightStrategy straightStrategy = new StraightStrategy();
+        FlushStrategy flushStrategy = new FlushStrategy(highCardStrategy);
+        FullHouseStrategy fullHouseStrategy = new FullHouseStrategy();
+        FourOfAKindStrategy fourOfAKindStrategy = new FourOfAKindStrategy();
+        StraightFlushStrategy straightFlushStrategy = new StraightFlushStrategy(
+        		straightStrategy, flushStrategy);
+        
+        IRankingStrategy[] strategyArray = 
+        	{straightFlushStrategy, fourOfAKindStrategy, fullHouseStrategy, flushStrategy, 
+        			straightStrategy, threeOfAKindStrategy, twoPairsStrategy, pairStrategy, 
+        			highCardStrategy};
         
         List<IRankingStrategy> orderedStrategies = new ArrayList<IRankingStrategy>(Arrays.asList(strategyArray));
         strategyComposition.setStrategies(orderedStrategies);
@@ -154,6 +174,7 @@ public class PokerGameGUI extends Application {
 
 	private void createTableWithPlayerCards(TableView<PokerCard> table, String columnName, ObservableList<PokerCard> data) {
 		table.setEditable(false);
+		table.setSelectionModel(null);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
  
         TableColumn<PokerCard, String> firstPlayerCards = new TableColumn<>(columnName);

@@ -9,9 +9,9 @@ public class FlushStrategy implements IRankingStrategy {
 	
 	private HighCardStrategy highCardStrategy;
 	
-	FlushStrategy(){};
+	public FlushStrategy(){};
 	
-	FlushStrategy(HighCardStrategy highCardStrategy) {
+	public FlushStrategy(HighCardStrategy highCardStrategy) {
 		this.highCardStrategy = highCardStrategy;
 	}
 

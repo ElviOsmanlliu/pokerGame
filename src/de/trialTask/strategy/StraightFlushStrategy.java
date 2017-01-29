@@ -10,9 +10,9 @@ public class StraightFlushStrategy implements IRankingStrategy {
 	private StraightStrategy straightStrategy;
 	private FlushStrategy flushStrategy;
 
-	StraightFlushStrategy(){}
+	public StraightFlushStrategy(){}
 	
-	StraightFlushStrategy(StraightStrategy straightStrategy, FlushStrategy flushStrategy) {
+	public StraightFlushStrategy(StraightStrategy straightStrategy, FlushStrategy flushStrategy) {
 		this.straightStrategy = straightStrategy;
 		this.flushStrategy = flushStrategy;
 	}
