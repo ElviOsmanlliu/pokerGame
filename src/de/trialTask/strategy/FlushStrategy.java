@@ -32,7 +32,7 @@ public class FlushStrategy implements IRankingStrategy {
 		return result;
 	}
 	
-	private boolean existsFlush(PokerCard[] cards) {
+	protected boolean existsFlush(PokerCard[] cards) {
 		if (cards[0].getSuite() == cards[1].getSuite()
 				&& cards[1].getSuite() == cards[2].getSuite()
 				&& cards[2].getSuite() == cards[3].getSuite()

@@ -24,7 +24,7 @@ public class StraightStrategy implements IRankingStrategy {
 		return result;
 	}
 	
-	private boolean existsStraight(PokerCard[] cards){
+	protected boolean existsStraight(PokerCard[] cards){
 		Arrays.sort(cards);
 		if (cards[4].getValue().getNumber() == cards[3].getValue().getNumber() + 1 
 			&& cards[3].getValue().getNumber() == cards[2].getValue().getNumber() + 1

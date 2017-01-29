@@ -26,7 +26,7 @@ public class FlushStrategyTest {
 	@Test
 	public void testHandsWithSameSuiteComparedWithHighCardStrategy() {
 		handOne.setCards(generatePokerCardsFromSameDiamondSuite(CardValue.ACE));
-		handTwo.setCards(generatePokerCardsFromSameHeartSuite(CardValue.EIGHT));
+		handTwo.setCards(generatePokerCardsFromSameHeartSuite(CardValue.KING));
 		
 		int result = strategy.rank(handOne, handTwo);
 		
@@ -35,9 +35,9 @@ public class FlushStrategyTest {
 	
 	private PokerCard[] generatePokerCardsFromSameDiamondSuite(CardValue lastCardValue){
 		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
-		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
-		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.FOUR);
-		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.FIVE);
+		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.SIX);
+		PokerCard three = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+		PokerCard four = new PokerCard(CardSuite.DIAMOND, CardValue.NINE);
 		PokerCard lastCard = new PokerCard(CardSuite.DIAMOND, lastCardValue);
 		
 		PokerCard[] cards = {one, two, three, four, lastCard};
