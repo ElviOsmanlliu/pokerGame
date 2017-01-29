@@ -1,11 +1,13 @@
 package de.trialTask.strategy;
 
 import java.util.Arrays;
+
+import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
 import de.trialTask.model.PokerHand;
 
-public class ThreeOfAKindStrategy implements IRankingStrategy {
-	
+public class FullHouseStrategy implements IRankingStrategy {
+
 	@Override
 	public int rank(PokerHand handOne, PokerHand handTwo) {
 		int result = 0;
@@ -13,20 +15,34 @@ public class ThreeOfAKindStrategy implements IRankingStrategy {
 		PokerCard[] handOneCards = handOne.getCards().clone();
 		PokerCard[] handTwoCards = handTwo.getCards().clone();
 		
-		if (existsThreeSameValues(handOneCards) && existsThreeSameValues(handTwoCards)) {
+		if (existsFullHouse(handOneCards) && existsFullHouse(handTwoCards)) {
 			result = compareHandCards(handOneCards, handTwoCards);
 		}
 		
 		return result;
 	}
-	
-	private boolean existsThreeSameValues(PokerCard[] cards){
+
+	private boolean existsFullHouse(PokerCard[] cards) {
+		CardValue threeSameValue = null;
+		CardValue pairValue = null;
+		// exists three same value
 		Arrays.sort(cards);
 		for (int i=0; i < cards.length-2; i++) {
 			if (cards[i].compareTo(cards[i+1]) == 0
 					&& cards[i].compareTo(cards[i+2]) == 0) {
-				return true;
+				threeSameValue = cards[i].getValue();
+				break;
 			}
+		}
+		for (int i=0; i < cards.length-1; i++) {
+			if (cards[i].compareTo(cards[i+1]) == 0
+					&& threeSameValue != cards[i].getValue()) {
+				pairValue = cards[i].getValue();
+				break;
+			}
+		}
+		if (threeSameValue != null && pairValue != null) {
+			return true;
 		}
 		return false;
 	}
@@ -57,7 +73,6 @@ public class ThreeOfAKindStrategy implements IRankingStrategy {
 	
 	@Override
 	public String toString() {
-		return "Three of a Kind";
+		return "Full House";
 	}
-
 }

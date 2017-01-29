@@ -9,33 +9,32 @@ import de.trialTask.model.CardSuite;
 import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
 import de.trialTask.model.PokerHand;
-import de.trialTask.strategy.ThreeOfAKindStrategy;
 
-public class ThreeOfAKindStrategyTest {
+public class FullHouseStrategyTest {
 	
 	private PokerHand handOne;
 	private PokerHand handTwo;
-	private ThreeOfAKindStrategy strategy;
+	private FullHouseStrategy strategy;
 
 	@Before
 	public void setUp() throws Exception {
 		handOne = new PokerHand();
 		handTwo = new PokerHand();
-		strategy = new ThreeOfAKindStrategy();
+		strategy = new FullHouseStrategy(); 
 	}
 	
 	@Test
-	public void testHandWithHighestValueOfTheThreeSameCardsWins() {
-		handOne.setCards(generatePokerCardsWithThreeSameCardValues(CardValue.QUEEN));
-		handTwo.setCards(generatePokerCardsWithThreeSameCardValues(CardValue.FIVE));
+	public void testHandWithFullHouseAndHighestValueWins() {
+		handOne.setCards(generatePokerCardsWithThreeSameCardValues(CardValue.KING, CardValue.TWO));
+		handTwo.setCards(generatePokerCardsWithThreeSameCardValues(CardValue.JACK, CardValue.ACE));
 		
 		int result = strategy.rank(handOne, handTwo);
 		assertEquals(1, result);
 	}
-	
-	private PokerCard[] generatePokerCardsWithThreeSameCardValues(CardValue sameCardValue) {
-		PokerCard one = new PokerCard(CardSuite.DIAMOND, CardValue.TWO);
-		PokerCard two = new PokerCard(CardSuite.DIAMOND, CardValue.THREE);
+
+	private PokerCard[] generatePokerCardsWithThreeSameCardValues(CardValue sameCardValue, CardValue pairValue) {
+		PokerCard one = new PokerCard(CardSuite.DIAMOND, pairValue);
+		PokerCard two = new PokerCard(CardSuite.SPADE, pairValue);
 		PokerCard three = new PokerCard(CardSuite.HEART, sameCardValue);
 		PokerCard four = new PokerCard(CardSuite.DIAMOND, sameCardValue);
 		PokerCard five = new PokerCard(CardSuite.CLUB, sameCardValue);
