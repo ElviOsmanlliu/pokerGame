@@ -13,9 +13,9 @@ import de.trialTask.strategy.HighCardStrategy;
 
 public class HighCardStrategyTest {
 
-	PokerHand handOne;
-	PokerHand handTwo;
-	HighCardStrategy strategy;
+	private PokerHand handOne;
+	private PokerHand handTwo;
+	private HighCardStrategy strategy;
 	
 	@Before
 	public void setUp() throws Exception {
