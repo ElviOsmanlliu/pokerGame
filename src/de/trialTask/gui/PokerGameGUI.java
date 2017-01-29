@@ -32,23 +32,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
  
 public class PokerGameGUI extends Application {
 	
-	private static final String NEW_CARDS_GENERATOR_BUTTON_LABEL = "New Cards";
+	private static final String NEW_CARDS_GENERATOR_BUTTON_LABEL = "Random Cards";
 	private static final String START_NEW_GAME_BUTTON_LABEL = "Start New Game";
 	private static final String SECOND_COLUMN_NAME = "Second Player Cards";
 	private static final String FIRST_COLUMN_NAME = "First Player Cards";
-	private static final String BOX_LABEL = "Random Poker Hands";
+	private static final String BOX_LABEL = "Poker Hands";
 	private static final String STAGE_TITLE = "PokerGame_TrialTask";
+	private static final String EVALUATE_BUTTON = "Evaluate Cards";
 	
 	private List<PokerCard> pokerDeckWithPlayingCards = new ArrayList<PokerCard>();
-	private boolean isStartNewGameVisible = false;
 	
     private TableView<PokerCard> firstPlayerTable = new TableView<PokerCard>();
     private ObservableList<PokerCard> firstPlayerData =
@@ -59,6 +61,7 @@ public class PokerGameGUI extends Application {
         FXCollections.observableArrayList(new PokerCard[5]);
     
     private StrategyComposition strategyComposition = new StrategyComposition();
+    
     
     public static void main(String[] args) {
         launch(args);
@@ -78,72 +81,104 @@ public class PokerGameGUI extends Application {
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
  
+        prepareRankingStrategies();
+
         createTableWithPlayerCards(firstPlayerTable, FIRST_COLUMN_NAME, firstPlayerData);
         createTableWithPlayerCards(secondPlayerTable, SECOND_COLUMN_NAME, secondPlayerData);
         
-        Button startNewGameButton = new Button(START_NEW_GAME_BUTTON_LABEL);
-        startNewGameButton.setVisible(false);
-        startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		pokerDeckWithPlayingCards.clear();
-        		startNewGameButton.setVisible(false);
-        	}
-        });
+        Label msgLabel = new Label();
+        msgLabel.setFont(new Font("Arial", 20));
         
-        prepareRankingStrategies();
+        Button genRandomCardsButton = getRandomCardsButton(msgLabel);
+        Button evaluateCardsButton = getEvaluatePokerHandsButton(msgLabel);
+        Button startNewGameButton = getStartNewGameButton(msgLabel);
         
-        Label winLabel = new Label();
-        winLabel.setFont(new Font("Arial", 20));
+        vbox.getChildren().addAll(label, firstPlayerTable, secondPlayerTable, genRandomCardsButton, evaluateCardsButton, startNewGameButton, msgLabel);
         
-        Button genRandomCardsButton = new Button(NEW_CARDS_GENERATOR_BUTTON_LABEL);
+        ((Group) scene.getRoot()).getChildren().add(vbox);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+	private Button getRandomCardsButton(Label msgLabel) {
+		Button genRandomCardsButton = new Button(NEW_CARDS_GENERATOR_BUTTON_LABEL);
         genRandomCardsButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
+        		msgLabel.setText("");
         		firstPlayerData.clear();
         		PokerHand firstPlayerPokerHand = getRandomPokerHand();
         		for (PokerCard card: firstPlayerPokerHand.getCards()) {
-        			firstPlayerData.add(card);
+        			if (card != null) {
+        				firstPlayerData.add(card);
+        			}
         		}
         		firstPlayerTable.setItems(firstPlayerData);
         		
         		secondPlayerData.clear();
         		PokerHand secondPlayerPokerHand = getRandomPokerHand();
         		for (PokerCard card: secondPlayerPokerHand.getCards()) {
-        			secondPlayerData.add(card);
+        			if (card != null) {
+        				secondPlayerData.add(card);
+        			}
         		}
         		secondPlayerTable.setItems(secondPlayerData);
         		
-        		// If cards still available find the winner
-        		if (!isStartNewGameVisible) {
-        			int result = strategyComposition.rank(firstPlayerPokerHand, secondPlayerPokerHand);
-            		String usedStrategy = strategyComposition.getUsedStrategy().toString();
-        			String winLabelText = "";
-            		switch(result) {
-            		case 1: 
-            			winLabelText = "First Player Won! " + usedStrategy; break;
-            		case 2: 
-            			winLabelText = "Second Player Won! " + usedStrategy; break;
-            		case 0: 
-            			winLabelText = "No one won! " + usedStrategy; break;
-            		}
-            		winLabel.setText(winLabelText);
-        		}
-        		
-        		// If all cards played, start new game
-        		if (isStartNewGameVisible) {
-        			startNewGameButton.setVisible(true);
-        			winLabel.setText("");
+        		if (firstPlayerData.isEmpty() && secondPlayerData.isEmpty()) {
+        			msgLabel.setText("No more cards for this poker hand!");
         		}
         	}
         });
-        
-        vbox.getChildren().addAll(label, firstPlayerTable, secondPlayerTable, genRandomCardsButton, startNewGameButton, winLabel);
-        
-        ((Group) scene.getRoot()).getChildren().add(vbox);
-        stage.setScene(scene);
-        stage.show();
-    }
+		return genRandomCardsButton;
+	}
+	
+	private Button getEvaluatePokerHandsButton(Label msgLabel) {
+		Button evaluateButton = new Button(EVALUATE_BUTTON);
+		evaluateButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				evaluatePokerHands(msgLabel);
+			}
+		});
+		return evaluateButton;
+	}
+
+	private void evaluatePokerHands(Label winLabel) {
+		// If cards still available find the winner
+		if (!(firstPlayerData.isEmpty() || secondPlayerData.isEmpty())) {
+			PokerHand firstPlayerPokerHand = new PokerHand();
+			firstPlayerPokerHand.setCards(firstPlayerData.toArray(new PokerCard[5]));
+			PokerHand secondPlayerPokerHand = new PokerHand();
+			secondPlayerPokerHand.setCards(secondPlayerData.toArray(new PokerCard[5]));
+			
+			int result = strategyComposition.rank(firstPlayerPokerHand, secondPlayerPokerHand);
+    		
+			String usedStrategy = strategyComposition.getUsedStrategy().toString();
+			String winLabelText = "";
+    		
+			switch(result) {
+    		case 1: 
+    			winLabelText = "First Player Won! " + usedStrategy; break;
+    		case 2: 
+    			winLabelText = "Second Player Won! " + usedStrategy; break;
+    		case 0: 
+    			winLabelText = "No one won! " + usedStrategy; break;
+    		}
+    		winLabel.setText(winLabelText);
+		}
+	}
+	
+	private Button getStartNewGameButton(Label msgLabel) {
+		Button startNewGameButton = new Button(START_NEW_GAME_BUTTON_LABEL);
+        startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent e) {
+        		pokerDeckWithPlayingCards.clear();
+        		msgLabel.setText("Game started! Get new poker cards!");
+        	}
+        });
+		return startNewGameButton;
+	}
     
     /**
      * Set the strategies by which the poker hands are ranked.
@@ -173,17 +208,29 @@ public class PokerGameGUI extends Application {
     }
 
 	private void createTableWithPlayerCards(TableView<PokerCard> table, String columnName, ObservableList<PokerCard> data) {
-		table.setEditable(false);
-		table.setSelectionModel(null);
+		table.setEditable(true);
+//		table.setSelectionModel(null);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
  
-        TableColumn<PokerCard, String> firstPlayerCards = new TableColumn<>(columnName);
-        firstPlayerCards.setMinWidth(100);
-        firstPlayerCards.setCellValueFactory(
+        TableColumn<PokerCard, String> playerCardsColumn = new TableColumn<>(columnName);
+        playerCardsColumn.setMinWidth(100);
+        playerCardsColumn.setCellValueFactory(
                 new PropertyValueFactory<PokerCard, String>("pokerCardAsString"));
- 
+        playerCardsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        playerCardsColumn.setOnEditCommit(
+        		new EventHandler<CellEditEvent<PokerCard, String>>() {
+        			@Override
+        			public void handle(CellEditEvent<PokerCard, String> t) {
+//        				PokerCard card = ((PokerCard) t.getTableView().getItems().get(
+//        						t.getTablePosition().getRow()));
+//        				String newCardAsString = t.getNewValue();
+//        				PokerCard newCard = new PokerCard(newCardAsString);
+//        				System.out.println(newCard.toString());
+        			}
+        		});
+        
         table.setItems(data);
-        table.getColumns().addAll(Arrays.asList(firstPlayerCards));
+        table.getColumns().addAll(Arrays.asList(playerCardsColumn));
         
         // resize table depending on number of rows and cell size
         table.setFixedCellSize(25);
@@ -197,10 +244,7 @@ public class PokerGameGUI extends Application {
     		PokerCard randomCard = getRandomPokerCard();
     		if (randomCard != null) {
     			pokerHandCards[i] = randomCard;
-    			isStartNewGameVisible = false;
-    		} else {
-    			isStartNewGameVisible = true;
-    		}
+    		} 
     	}
     	pokerHand.setCards(pokerHandCards);
     	return pokerHand;
