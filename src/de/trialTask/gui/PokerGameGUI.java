@@ -9,7 +9,6 @@ import de.trialTask.model.CardValue;
 import de.trialTask.model.PokerCard;
 import de.trialTask.model.PokerHand;
 import de.trialTask.strategy.FlushStrategy;
-import de.trialTask.strategy.FlushStrategyTest;
 import de.trialTask.strategy.FourOfAKindStrategy;
 import de.trialTask.strategy.FullHouseStrategy;
 import de.trialTask.strategy.HighCardStrategy;
@@ -42,6 +41,7 @@ import javafx.stage.Stage;
  
 public class PokerGameGUI extends Application {
 	
+	private static final String CARD_AS_STRING_PATTERN = "(\\w)+(\\s)(\\w)+";
 	private static final String NEW_CARDS_GENERATOR_BUTTON_LABEL = "Random Cards";
 	private static final String START_NEW_GAME_BUTTON_LABEL = "Start New Game";
 	private static final String SECOND_COLUMN_NAME = "Second Player Cards";
@@ -49,16 +49,28 @@ public class PokerGameGUI extends Application {
 	private static final String BOX_LABEL = "Poker Hands";
 	private static final String STAGE_TITLE = "PokerGame_TrialTask";
 	private static final String EVALUATE_BUTTON = "Evaluate Cards";
+	private static final PokerCard[] FIRST_PLAYER_CARDS = {
+			new PokerCard(CardSuite.CLUB, CardValue.TWO),
+			new PokerCard(CardSuite.CLUB, CardValue.THREE),
+			new PokerCard(CardSuite.CLUB, CardValue.FOUR),
+			new PokerCard(CardSuite.CLUB, CardValue.FIVE),
+			new PokerCard(CardSuite.CLUB, CardValue.SIX)
+	};
+	private static final PokerCard[] SECOND_PLAYER_CARDS = {
+			new PokerCard(CardSuite.DIAMOND, CardValue.FIVE),
+			new PokerCard(CardSuite.DIAMOND, CardValue.SIX),
+			new PokerCard(CardSuite.DIAMOND, CardValue.SEVEN),
+			new PokerCard(CardSuite.DIAMOND, CardValue.EIGHT),
+			new PokerCard(CardSuite.DIAMOND, CardValue.NINE)
+	};
 	
-	private List<PokerCard> pokerDeckWithPlayingCards = new ArrayList<PokerCard>();
+	private List<PokerCard> pokerDeck = new ArrayList<PokerCard>();
 	
     private TableView<PokerCard> firstPlayerTable = new TableView<PokerCard>();
-    private ObservableList<PokerCard> firstPlayerData =
-        FXCollections.observableArrayList(new PokerCard[5]);
+    private ObservableList<PokerCard> firstPlayerData = FXCollections.observableArrayList(FIRST_PLAYER_CARDS);
     
     private TableView<PokerCard> secondPlayerTable = new TableView<PokerCard>();
-    private ObservableList<PokerCard> secondPlayerData =
-        FXCollections.observableArrayList(new PokerCard[5]);
+    private ObservableList<PokerCard> secondPlayerData = FXCollections.observableArrayList(SECOND_PLAYER_CARDS);
     
     private StrategyComposition strategyComposition = new StrategyComposition();
     
@@ -82,6 +94,7 @@ public class PokerGameGUI extends Application {
         vbox.setPadding(new Insets(10, 0, 0, 10));
  
         prepareRankingStrategies();
+        fillPokerDeck();
 
         createTableWithPlayerCards(firstPlayerTable, FIRST_COLUMN_NAME, firstPlayerData);
         createTableWithPlayerCards(secondPlayerTable, SECOND_COLUMN_NAME, secondPlayerData);
@@ -160,6 +173,7 @@ public class PokerGameGUI extends Application {
     		case 1: 
     			winLabelText = "First Player Won! " + usedStrategy; break;
     		case 2: 
+    		case -1:
     			winLabelText = "Second Player Won! " + usedStrategy; break;
     		case 0: 
     			winLabelText = "No one won! " + usedStrategy; break;
@@ -173,7 +187,8 @@ public class PokerGameGUI extends Application {
         startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		pokerDeckWithPlayingCards.clear();
+//        		pokerDeckWithPlayingCards.clear();
+        		fillPokerDeck();
         		msgLabel.setText("Game started! Get new poker cards!");
         	}
         });
@@ -221,12 +236,44 @@ public class PokerGameGUI extends Application {
         		new EventHandler<CellEditEvent<PokerCard, String>>() {
         			@Override
         			public void handle(CellEditEvent<PokerCard, String> t) {
-//        				PokerCard card = ((PokerCard) t.getTableView().getItems().get(
-//        						t.getTablePosition().getRow()));
-//        				String newCardAsString = t.getNewValue();
-//        				PokerCard newCard = new PokerCard(newCardAsString);
-//        				System.out.println(newCard.toString());
+        				PokerCard card = ((PokerCard) t.getTableView().getItems().get(
+        						t.getTablePosition().getRow()));
+        				String inputToValidate = t.getNewValue();
+        				PokerCard newPokerCard = getPokerCardFromParsedInput(inputToValidate);
+        				if (newPokerCard != null) {
+        					data.set(data.indexOf(card), newPokerCard);
+        				} else {
+        					// not valid input, so save the old value
+        					data.set(data.indexOf(card), card);
+        				}
         			}
+
+					private PokerCard getPokerCardFromParsedInput(String newCardAsString) {
+						PokerCard newPokerCard = null;
+						if (newCardAsString.matches(CARD_AS_STRING_PATTERN)) {
+							String[] cardElements = newCardAsString.split(" ");
+							String suite = cardElements[0];
+							String value = cardElements[1];
+							CardSuite newCardSuite = null;
+							CardValue newCardValue = null;
+							for (CardSuite cardSuite : CardSuite.values()) {
+								if (cardSuite.getName().equals(suite)) {
+									newCardSuite = cardSuite;
+									break;
+								}
+							}
+							for (CardValue cardValue : CardValue.values()) {
+								if (cardValue.getName().equals(value)) {
+									newCardValue = cardValue;
+									break;
+								}
+							}
+							if (newCardSuite != null && newCardValue != null) {
+								newPokerCard = new PokerCard(newCardSuite, newCardValue);
+							}
+						}
+						return newPokerCard;
+					}
         		});
         
         table.setItems(data);
@@ -241,60 +288,31 @@ public class PokerGameGUI extends Application {
     	PokerHand pokerHand = new PokerHand();
     	PokerCard[] pokerHandCards = new PokerCard[5];
     	for (int i = 0; i< pokerHandCards.length; i++) {
-    		PokerCard randomCard = getRandomPokerCard();
+    		PokerCard randomCard = getRandomCard();
     		if (randomCard != null) {
     			pokerHandCards[i] = randomCard;
-    		} 
+    		}
     	}
     	pokerHand.setCards(pokerHandCards);
     	return pokerHand;
     }
     
-    private PokerCard getRandomPokerCard() {
-    	if (pokerDeckWithPlayingCards.size() < 50) {
-    		int randomIdForCardSuite = (int) (Math.random()*4 + 1);
-    		int randomIdForCardValue = (int) (Math.random()*13 + 1);
-    		CardSuite cardSuite = getCardSuiteForId(randomIdForCardSuite);
-    		CardValue cardValue = getCardValueForId(randomIdForCardValue);
-    		PokerCard randomCard = new PokerCard(cardSuite, cardValue);
-    		if (pokerDeckWithPlayingCards.contains(randomCard)) {
-    			return getRandomPokerCard();
-    		}
-    		pokerDeckWithPlayingCards.add(randomCard);
-    		return randomCard;
+    private PokerCard getRandomCard() {
+    	// last 2 cards are not for playing
+    	if (pokerDeck.size() > 2) {
+    		int indexForCard = (int) (Math.random()*pokerDeck.size());
+    		return pokerDeck.remove(indexForCard);
     	}
     	return null;
     }
     
-    private CardSuite getCardSuiteForId(int id) {
-    	CardSuite cardSuite;
-    	switch(id) {
-    	case 1: cardSuite = CardSuite.CLUB; break;
-    	case 2: cardSuite = CardSuite.DIAMOND; break;
-    	case 3: cardSuite = CardSuite.HEART; break;
-    	default: cardSuite = CardSuite.SPADE; break;
+    private void fillPokerDeck() {
+    	pokerDeck.clear();
+    	for (CardSuite suite: CardSuite.values()) {
+    		for (CardValue value: CardValue.values()) {
+    			pokerDeck.add(new PokerCard(suite, value));
+    		}
     	}
-    	return cardSuite;
-    }
-    
-    private CardValue getCardValueForId(int id) {
-    	CardValue cardValue;
-    	switch(id) {
-    	case 1: cardValue = CardValue.TWO; break;
-    	case 2: cardValue = CardValue.THREE; break;
-    	case 3: cardValue = CardValue.FOUR; break;
-    	case 4: cardValue = CardValue.FIVE; break;
-    	case 5: cardValue = CardValue.SIX; break;
-    	case 6: cardValue = CardValue.SEVEN; break;
-    	case 7: cardValue = CardValue.EIGHT; break;
-    	case 8: cardValue = CardValue.NINE; break;
-    	case 9: cardValue = CardValue.TEN; break;
-    	case 10: cardValue = CardValue.JACK; break;
-    	case 11: cardValue = CardValue.QUEEN; break;
-    	case 12: cardValue = CardValue.KING; break;
-    	default: cardValue = CardValue.ACE; break;
-    	}
-    	return cardValue;
     }
     
 }
