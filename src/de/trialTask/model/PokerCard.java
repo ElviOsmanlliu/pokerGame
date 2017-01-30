@@ -12,7 +12,6 @@ public class PokerCard implements Comparable<PokerCard> {
 		return value;
 	}
 
-	private String pokerCardAsString;
 	public String getPokerCardAsString() {
 		return this.toString();
 	}
@@ -21,7 +20,7 @@ public class PokerCard implements Comparable<PokerCard> {
 		this.suite = suite;
 		this.value = value;
 	}
-
+	
 	@Override
 	public int compareTo(PokerCard otherCard) {
 		int thisCardValueAsNumber = this.value.getNumber();
