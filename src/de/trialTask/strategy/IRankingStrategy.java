@@ -13,7 +13,7 @@ public interface IRankingStrategy {
 	 * @return
 	 * 			1, if handOne is better than handTwo <br>
 	 * 			0, not specified <br>
-	 * 			2, if handTwo is better than handOne
+	 * 			2 or -1, if handTwo is better than handOne
 	 */
 	int rank(PokerHand handOne, PokerHand handTwo);
 }
