@@ -48,6 +48,14 @@ public class PokerCard implements Comparable<PokerCard> {
 	}
 	
 	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 27*result + this.getSuite().hashCode();
+		result = 27*result + this.getValue().hashCode();
+		return result;
+	}
+	
+	@Override
 	public String toString(){
 		return suite.getName() + " " + value.getName();
 	}
